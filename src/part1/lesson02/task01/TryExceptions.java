@@ -23,19 +23,11 @@ public class TryExceptions {
 
         switch (caseException) {
             case 0:
-                String str = null;
-                System.out.println(str.contains("f"));
+                new TryNullPointerException().generateException();
             case 1:
-                int[] array = new int[7];
-                System.out.println(array[7]);
+                new TryArrayIndexOutOfBoundsException().generateException();
             case 2:
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                System.out.print("Введите логин: ");
-                String name = reader.readLine();
-                System.out.print("Введите пароль: ");
-                String password = reader.readLine();
-                if (!(name.equals("kate") && password.equals("qwerty")))
-                    throw new IllegalAccessException();
+                new TryIllegalAccessException().generateException();
         }
     }
 }

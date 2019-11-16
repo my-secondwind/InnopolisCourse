@@ -35,5 +35,8 @@ public class Main {
         objectObjectBox.addObject(mathBox);
         objectObjectBox.dump();
 
+        //try to add Object
+        mathBox.addObject(new Object());
+
     }
 }

@@ -78,14 +78,14 @@ public class Person implements Comparable<Person> {
     public int compareTo(Person person) throws IdentityException {
         if (this == person) return 0;
 
-        if (this.sex.equals(Sex.MAN) && person.sex.equals(Sex.WOMAN)) return 3;
-        if (this.sex.equals(Sex.WOMAN) && person.sex.equals(Sex.MAN)) return -3;
+        if (this.sex.equals(Sex.MAN) && person.sex.equals(Sex.WOMAN)) return -3;
+        if (this.sex.equals(Sex.WOMAN) && person.sex.equals(Sex.MAN)) return 3;
 
-        if (this.age > person.age) return 2;
-        if (this.age < person.age) return -2;
+        if (this.age != person.age)
+            return Integer.compare(this.age, person.age);
 
-        if (this.name.compareTo(person.name) < 0) return 1;
-        if (this.name.compareTo(person.name) > 0) return -1;
+        if (this.name.compareTo(person.name)!=0)
+            return this.name.compareTo(person.name);
 
         throw new IdentityException();
     }

@@ -95,14 +95,14 @@ public class Pet implements Comparable<Pet> {
     public int compareTo(Pet pet) {
         if (this == pet) return 0;
 
-        if (owner.compareTo(pet.owner) < 0) return 3;
-        if (owner.compareTo(pet.owner) > 0) return -3;
+        if (owner.compareTo(pet.owner)!=0)
+            return owner.compareTo(pet.owner);
 
-        if (name.compareTo(pet.name) > 0) return 2;
-        if (name.compareTo(pet.name) < 0) return -2;
+        if (name.compareTo(pet.name) != 0)
+            return name.compareTo(pet.name);
 
-        if (weight > pet.weight) return 1;
-        if (weight < pet.weight) return -1;
+        if (weight != pet.weight)
+            return Integer.compare(weight, pet.weight);
 
         return 0;
     }

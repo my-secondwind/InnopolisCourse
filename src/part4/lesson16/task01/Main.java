@@ -1,7 +1,9 @@
 package part4.lesson16.task01;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import part4.lesson16.task01.funcClasses.BatchInsert;
+import part4.lesson16.task01.funcClasses.MyPreparedStatement;
+import part4.lesson16.task01.funcClasses.ParametrizedSelect;
+import part4.lesson16.task01.funcClasses.TransactionWithSavePoint;
 
 /**
  * @author Ekaterina Belolipetskaya

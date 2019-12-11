@@ -19,9 +19,9 @@ public class ConnectionManagerJdbcImpl implements ConnectionManager {
     private static final Logger LOGGER = LogManager.getLogger(ConnectionManagerJdbcImpl.class);
     private static ConnectionManager connectionManager;
     private static final String POSTGRES_DRIVER = "org.postgresql.Driver";
-    private static final String POSTGRES_URL = "jdbc:postgresql://localhost:5432/users";
-    private static final String POSTGRES_USER = "postgres";
-    private static final String POSTGRES_PASSWORD = "qwerty12345";
+    public static final String POSTGRES_URL_USERS = "jdbc:postgresql://localhost:5432/users";
+    public static final String POSTGRES_USER = "postgres";
+    public static final String POSTGRES_PASSWORD = "qwerty12345";
     private static final String GET_CONNECTION = "get connection";
 
     private ConnectionManagerJdbcImpl() {
@@ -41,7 +41,7 @@ public class ConnectionManagerJdbcImpl implements ConnectionManager {
             LOGGER.info(GET_CONNECTION);
             Class.forName(POSTGRES_DRIVER);
             connection = DriverManager.getConnection(
-                    POSTGRES_URL,
+                    POSTGRES_URL_USERS,
                     POSTGRES_USER,
                     POSTGRES_PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {

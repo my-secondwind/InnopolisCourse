@@ -1,4 +1,4 @@
-package part4.lesson16.task01;
+package part4.lesson16.task01.funcClasses;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

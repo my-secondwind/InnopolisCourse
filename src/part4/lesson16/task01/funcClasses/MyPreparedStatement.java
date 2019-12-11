@@ -1,4 +1,4 @@
-package part4.lesson16.task01;
+package part4.lesson16.task01.funcClasses;
 
 import part4.lesson16.task01.dao.GenericDao;
 import part4.lesson16.task01.dao.RoleDaoImpl;

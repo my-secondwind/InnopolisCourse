@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Appenders>
-        <JDBC name="databaseAppender" tableName="logs">
-            <DriverManager connectionString = "jdbc:postgresql://localhost:5432/logs" driverClassName = "org.postgresql.Driver" userName = "postgres" password = "qwerty12345"/>
-            <Column name="date" isEventTimestamp="true" isUnicode="false" />
-            <Column name="log_level" pattern="%level" isUnicode="false" />
-            <Column name="message" pattern="%message" isUnicode="false"/>
-            <Column name="exception" pattern="%throwable" isUnicode="false"/>
-        </JDBC>
+        <File name="file" fileName="logs/log4j/log.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m %ex%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="%m%n"/>
+        </Console>
     </Appenders>
     <Loggers>
         <Root level="trace">
-            <AppenderRef ref="databaseAppender" level="INFO"/>
+            <AppenderRef ref="file" level="INFO"/>
+            <AppenderRef ref="stdout" level="INFO"/>
         </Root>
     </Loggers>
 </Configuration>

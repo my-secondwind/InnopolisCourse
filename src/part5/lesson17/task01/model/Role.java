@@ -2,6 +2,8 @@ package part5.lesson17.task01.model;
 
 import part5.lesson17.task01.model.enums.RolesNames;
 
+import java.util.Objects;
+
 /**
  * Role
  *
@@ -56,5 +58,20 @@ public class Role {
                 ", name=" + name +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Role)) return false;
+        Role role = (Role) o;
+        return Objects.equals(id, role.id) &&
+                name == role.name &&
+                Objects.equals(description, role.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description);
     }
 }

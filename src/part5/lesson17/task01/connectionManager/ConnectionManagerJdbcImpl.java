@@ -1,6 +1,5 @@
 package part5.lesson17.task01.connectionManager;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,7 +9,7 @@ import java.sql.SQLException;
 
 /**
  * ConnectionManagerJdbcImpl
- *
+ * <p>
  * Implements connection manager for JDBC.
  *
  * @author Ekaterina Belolipetskaya
@@ -38,14 +37,14 @@ public class ConnectionManagerJdbcImpl implements ConnectionManager {
     public Connection getConnection() {
         Connection connection = null;
         try {
-            LOGGER.info(GET_CONNECTION);
+            LOGGER.debug(GET_CONNECTION);
             Class.forName(POSTGRES_DRIVER);
             connection = DriverManager.getConnection(
                     POSTGRES_URL_USERS,
                     POSTGRES_USER,
                     POSTGRES_PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error(e);
         }
         return connection;
     }

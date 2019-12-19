@@ -1,12 +1,12 @@
 package part1.lesson05.task01.person;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Stream;
 
 /**
  * PersonGenerator
@@ -31,9 +31,11 @@ public class PersonGenerator {
         readNames(fileNameForWomanNames, womanNames);
     }
 
-    private void readNames(String fileName, List<String> list) {
-        try (Stream<String> streamFromFiles = Files.lines(Path.of(fileName))) {
-            streamFromFiles.forEach(list::add);
+    private void readNames(String fileName, List list) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)))) {
+            while (reader.ready()) {
+                list.add(reader.readLine());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

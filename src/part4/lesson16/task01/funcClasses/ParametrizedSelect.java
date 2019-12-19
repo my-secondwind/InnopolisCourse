@@ -12,6 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static part4.lesson16.task01.funcClasses.MyPreparedStatement.LOGIN_ID;
+import static part4.lesson16.task01.funcClasses.MyPreparedStatement.NAME;
+
 /**
  * ParametrizedSelect
  * @author Ekaterina Belolipetskaya
@@ -20,9 +23,6 @@ public class ParametrizedSelect {
     private static final Logger LOGGER = LogManager.getLogger(ParametrizedSelect.class);
     private static ConnectionManager connectionManager =
             ConnectionManagerJdbcImpl.getInstance();
-
-    private static int loginId = 13;
-    private static String name = "Kate";
 
     /**
      * Do Parametrized Select on login_id and name at the same time.
@@ -33,8 +33,8 @@ public class ParametrizedSelect {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(select)) {
             LOGGER.info(ParametrizedSelect.class);
-            preparedStatement.setInt(1, loginId);
-            preparedStatement.setString(2, name);
+            preparedStatement.setInt(1, LOGIN_ID);
+            preparedStatement.setString(2, NAME);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 user.setId(resultSet.getInt(1));

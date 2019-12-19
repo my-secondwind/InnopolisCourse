@@ -20,14 +20,14 @@ import static part3.lesson15.task01.dao.RoleDaoImpl.INSERT_ROLE_STATEMENT;
  */
 public class BatchInsert {
     private static final Logger LOGGER = LogManager.getLogger(BatchInsert.class);
-    private static ConnectionManager connectionManager =
+    private static final ConnectionManager CONNECTION_MANAGER =
             ConnectionManagerJdbcImpl.getInstance();
 
     /**
      * Do batch insert into DB.
      */
     public static void doInsert() {
-        try (Connection connection = connectionManager.getConnection();
+        try (Connection connection = CONNECTION_MANAGER.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_ROLE_STATEMENT)) {
             LOGGER.info(BatchInsert.class);
             preparedStatement.setObject(1, RolesNames.ADMINISTRATION.name());

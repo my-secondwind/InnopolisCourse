@@ -23,11 +23,11 @@ public class TransactionWithSavePoint {
     private static ConnectionManager connectionManager =
             ConnectionManagerJdbcImpl.getInstance();
     private static final String INSERT_USER_ROLE_STATEMENT = "INSERT INTO user_role VALUES (DEFAULT, ?, ?)";
-    private static Role role = new Role(null, RolesNames.ADMINISTRATION, "Admins only");
-    private static User user = new User(null, "Ivan", "1994-09-15", 15,
+    private static final Role ROLE = new Role(null, RolesNames.ADMINISTRATION, "Admins only");
+    private static final User USER = new User(null, "Ivan", "1994-09-15", 15,
             "Moscow", "ivan@gmail.com", "another user");
-    private static int userId = 1;
-    private static int roleId = 1;
+    private static final int USER_ID = 1;
+    private static final int ROLE_ID = 1;
 
     /**
      * Do Transaction With Save Point.
@@ -58,16 +58,16 @@ public class TransactionWithSavePoint {
     private static void execTransaction(Connection connection, PreparedStatement insertRoleStatement, PreparedStatement insertUserStatement,
                                         PreparedStatement insertUserRoleStatement) throws SQLException {
         try {
-            setPreparedStatement(insertRoleStatement, role);
+            setPreparedStatement(insertRoleStatement, ROLE);
             insertRoleStatement.execute();
 
-            setPreparedStatement(insertUserStatement, user);
+            setPreparedStatement(insertUserStatement, USER);
             insertUserStatement.execute();
 
             Savepoint savepoint = connection.setSavepoint("role and user added");
 
             try {
-                setPreparedStatement(insertUserRoleStatement, userId, roleId);
+                setPreparedStatement(insertUserRoleStatement, USER_ID, ROLE_ID);
                 insertUserRoleStatement.execute();
             } catch (Exception e) {
                 LOGGER.throwing(Level.ERROR, e);

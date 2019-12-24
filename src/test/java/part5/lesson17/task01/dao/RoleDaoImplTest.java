@@ -1,7 +1,5 @@
 package part5.lesson17.task01.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +23,6 @@ import static org.mockito.Mockito.*;
  */
 @ExtendWith(TestResultLoggerExtension.class)
 class RoleDaoImplTest {
-    private static final Logger LOGGER = LogManager.getLogger(RoleDaoImplTest.class);
     public static final String ADMINS_ONLY = "Admins only";
     private static final Integer ABSENT_ID = 2;
     private static ConnectionManager connectionManager;

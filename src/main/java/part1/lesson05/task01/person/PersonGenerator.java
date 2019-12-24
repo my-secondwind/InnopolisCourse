@@ -25,8 +25,8 @@ public class PersonGenerator {
     private List<String> womanNames = new ArrayList<>();
 
     public void initGenerator() {
-        String fileNameForManNames = "./src/inputfiles/manNames.txt";
-        String fileNameForWomanNames = "./src/inputfiles/womanNames.txt";
+        String fileNameForManNames = "./src/main/java/inputfiles/manNames.txt";
+        String fileNameForWomanNames = "./src/main/java/inputfiles/womanNames.txt";
         readNames(fileNameForManNames, manNames);
         readNames(fileNameForWomanNames, womanNames);
     }

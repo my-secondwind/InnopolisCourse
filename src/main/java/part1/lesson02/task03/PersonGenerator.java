@@ -18,8 +18,8 @@ import java.util.Random;
  */
 public class PersonGenerator {
     private static Random random = new Random();
-    private static String fileNameForManNames =  "./src/part1/lesson02/task03/manNames.txt";
-    private static String fileNameForWomanNames = "./src/part1/lesson02/task03/womanNames.txt";
+    private static String fileNameForManNames =  "./src/main/java/part1/lesson02/task03/manNames.txt";
+    private static String fileNameForWomanNames = "./src/main/java/part1/lesson02/task03/womanNames.txt";
     private static List<String> manNames = new ArrayList<>();
     private static List<String> womanNames = new ArrayList<>();
 

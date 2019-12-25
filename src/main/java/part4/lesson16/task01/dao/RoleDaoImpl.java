@@ -1,8 +1,7 @@
 package part4.lesson16.task01.dao;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import part4.lesson16.task01.connectionManager.ConnectionManager;
 import part4.lesson16.task01.connectionManager.ConnectionManagerJdbcImpl;
 import part4.lesson16.task01.model.Role;
@@ -14,13 +13,13 @@ import java.sql.SQLException;
 
 /**
  * RoleDaoImpl
- *
+ * <p>
  * Implements CRUD methods for Role object.
  *
  * @author Ekaterina Belolipetskaya
  */
 public class RoleDaoImpl implements GenericDao<Role> {
-    private static final Logger LOGGER = LogManager.getLogger(RoleDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RoleDaoImpl.class);
     private static ConnectionManager connectionManager =
             ConnectionManagerJdbcImpl.getInstance();
     public static final String INSERT_ROLE_STATEMENT = "INSERT INTO role values (DEFAULT, ?, ?)";
@@ -31,6 +30,7 @@ public class RoleDaoImpl implements GenericDao<Role> {
 
     /**
      * Add object into DB.
+     *
      * @param object that is added to DB.
      * @return {@code true} if object was added successfully.
      */
@@ -39,18 +39,19 @@ public class RoleDaoImpl implements GenericDao<Role> {
         boolean result = false;
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_ROLE_STATEMENT)) {
-            LOGGER.info(this.getClass());
+            LOGGER.debug("Adding object {}", object);
             preparedStatement.setObject(1, object.getName().name());
             preparedStatement.setString(2, object.getDescription());
             result = (preparedStatement.executeUpdate() == 1);
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during adding object {}", object, e);
         }
         return result;
     }
 
     /**
      * Get object from DB by ID.
+     *
      * @param id of object to be found.
      * @return object that created based pn info from DB
      */
@@ -59,20 +60,21 @@ public class RoleDaoImpl implements GenericDao<Role> {
         Role role = new Role();
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ROLE_STATEMENT)) {
-            LOGGER.info(this.getClass());
+            LOGGER.debug("Getting object by Id {}", id);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             createRoleObject(role, resultSet);
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during getting the object by Id {}", id, e);
         }
         return role;
     }
 
     /**
      * Set object's fields according to DB info.
-     * @param role object to be filled.
+     *
+     * @param role      object to be filled.
      * @param resultSet with info about object.
      * @throws SQLException - if any SQL errors occurs.
      */
@@ -84,6 +86,7 @@ public class RoleDaoImpl implements GenericDao<Role> {
 
     /**
      * Update DB row for the following object.
+     *
      * @param object updated object.
      * @return {@code true} if object was updated successfully.
      */
@@ -92,19 +95,20 @@ public class RoleDaoImpl implements GenericDao<Role> {
         boolean result = false;
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ROLE_STATEMENT)) {
-            LOGGER.info(this.getClass());
+            LOGGER.debug("Updating object by Id {}", object);
             preparedStatement.setString(1, object.getName().name());
             preparedStatement.setString(2, object.getDescription());
             preparedStatement.setInt(3, object.getId());
             result = (preparedStatement.executeUpdate() == 1);
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during updating the object by Id {}", object, e);
         }
         return result;
     }
 
     /**
      * Delete object by ID.
+     *
      * @param id of he object to be deleted.
      * @return {@code true} if object was deleted successfully.
      */
@@ -113,11 +117,11 @@ public class RoleDaoImpl implements GenericDao<Role> {
         boolean result = false;
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ROLE_STATEMENT)) {
-            LOGGER.info(this.getClass());
+            LOGGER.debug("Deleting object by Id {}", id);
             preparedStatement.setInt(1, id);
             result = (preparedStatement.executeUpdate() == 1);
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during deleting the object by Id {}", id, e);
         }
         return result;
     }

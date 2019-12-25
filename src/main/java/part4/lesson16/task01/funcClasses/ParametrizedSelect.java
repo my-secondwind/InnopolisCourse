@@ -1,8 +1,7 @@
 package part4.lesson16.task01.funcClasses;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import part4.lesson16.task01.connectionManager.ConnectionManager;
 import part4.lesson16.task01.connectionManager.ConnectionManagerJdbcImpl;
 import part4.lesson16.task01.model.User;
@@ -17,10 +16,11 @@ import static part4.lesson16.task01.funcClasses.MyPreparedStatement.NAME;
 
 /**
  * ParametrizedSelect
+ *
  * @author Ekaterina Belolipetskaya
  */
 public class ParametrizedSelect {
-    private static final Logger LOGGER = LogManager.getLogger(ParametrizedSelect.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParametrizedSelect.class);
     private static ConnectionManager connectionManager =
             ConnectionManagerJdbcImpl.getInstance();
 
@@ -32,7 +32,7 @@ public class ParametrizedSelect {
         String select = "SELECT * FROM users WHERE login_id = ? AND name = ?";
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(select)) {
-            LOGGER.info(ParametrizedSelect.class);
+            LOGGER.debug("Do parameterized select");
             preparedStatement.setInt(1, LOGIN_ID);
             preparedStatement.setString(2, NAME);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -44,10 +44,10 @@ public class ParametrizedSelect {
                 user.setCity(resultSet.getString(5));
                 user.setEmail(resultSet.getString(6));
                 user.setDescription(resultSet.getString(7));
-                LOGGER.info(user);
+                LOGGER.debug(user.toString());
             }
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during Parametrized Select", e);
         }
     }
 }

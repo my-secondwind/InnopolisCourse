@@ -1,7 +1,8 @@
 package part5.lesson17.task01.connectionManager;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import part4.lesson16.task01.funcClasses.TransactionWithSavePoint;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
  * @author Ekaterina Belolipetskaya
  */
 public class ConnectionManagerJdbcImpl implements ConnectionManager {
-    private static final Logger LOGGER = LogManager.getLogger(ConnectionManagerJdbcImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManagerJdbcImpl.class);
     private static ConnectionManager connectionManager;
     private static final String POSTGRES_DRIVER = "org.postgresql.Driver";
     public static final String POSTGRES_URL_USERS = "jdbc:postgresql://localhost:5432/users";
@@ -44,7 +45,7 @@ public class ConnectionManagerJdbcImpl implements ConnectionManager {
                     POSTGRES_USER,
                     POSTGRES_PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
-            LOGGER.error(e);
+            LOGGER.error("Error during getting connection", e);
         }
         return connection;
     }

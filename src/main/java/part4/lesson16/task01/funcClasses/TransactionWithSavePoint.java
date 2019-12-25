@@ -1,8 +1,7 @@
 package part4.lesson16.task01.funcClasses;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import part4.lesson16.task01.connectionManager.ConnectionManager;
 import part4.lesson16.task01.connectionManager.ConnectionManagerJdbcImpl;
 import part4.lesson16.task01.model.Role;
@@ -16,10 +15,11 @@ import static part3.lesson15.task01.dao.UserDaoImpl.INSERT_USER_STATEMENT;
 
 /**
  * TransactionWithSavePoint
+ *
  * @author Ekaterina Belolipetskaya
  */
 public class TransactionWithSavePoint {
-    private static final Logger LOGGER = LogManager.getLogger(TransactionWithSavePoint.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransactionWithSavePoint.class);
     private static ConnectionManager connectionManager =
             ConnectionManagerJdbcImpl.getInstance();
     private static final String INSERT_USER_ROLE_STATEMENT = "INSERT INTO user_role VALUES (DEFAULT, ?, ?)";
@@ -39,19 +39,20 @@ public class TransactionWithSavePoint {
              PreparedStatement insertRoleStatement = connection.prepareStatement(INSERT_ROLE_STATEMENT);
              PreparedStatement insertUserStatement = connection.prepareStatement(INSERT_USER_STATEMENT);
              PreparedStatement insertUserRoleStatement = connection.prepareStatement(INSERT_USER_ROLE_STATEMENT)) {
-            LOGGER.info(TransactionWithSavePoint.class);
+            LOGGER.debug("Do Transaction With Save Point");
             connection.setAutoCommit(false);
             execTransaction(connection, insertRoleStatement, insertUserStatement, insertUserRoleStatement);
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during getting connection/statement or rolling back the transaction", e);
         }
     }
 
     /**
      * Do three inserts in one transaction.
-     * @param connection DB connection.
-     * @param insertRoleStatement first insert.
-     * @param insertUserStatement second insert.
+     *
+     * @param connection              DB connection.
+     * @param insertRoleStatement     first insert.
+     * @param insertUserStatement     second insert.
      * @param insertUserRoleStatement third insert.
      * @throws SQLException if any SQL errors occurs.
      */
@@ -70,22 +71,23 @@ public class TransactionWithSavePoint {
                 setPreparedStatement(insertUserRoleStatement, USER_ID, ROLE_ID);
                 insertUserRoleStatement.execute();
             } catch (Exception e) {
-                LOGGER.throwing(Level.ERROR, e);
+                LOGGER.error("Error during insertUserRoleStatement execution ", e);
                 connection.rollback(savepoint);
                 throw e;
             }
 
             connection.commit();
         } catch (Exception e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during Transaction With Save Point ", e);
             connection.rollback();
         }
     }
 
     /**
      * Set {@code preparedStatement} by values in {@code role}.
+     *
      * @param preparedStatement to be set.
-     * @param role where values is get.
+     * @param role              where values is get.
      * @throws SQLException if ane SQL errors occurs.
      */
     private static void setPreparedStatement(PreparedStatement preparedStatement, Role role) throws SQLException {
@@ -95,8 +97,9 @@ public class TransactionWithSavePoint {
 
     /**
      * Set {@code preparedStatement} by values in {@code user}.
+     *
      * @param preparedStatement to be set.
-     * @param user where values is get.
+     * @param user              where values is get.
      * @throws SQLException if ane SQL errors occurs.
      */
     private static void setPreparedStatement(PreparedStatement preparedStatement, User user) throws SQLException {
@@ -110,9 +113,10 @@ public class TransactionWithSavePoint {
 
     /**
      * Set {@code preparedStatement} by values in {@code user}.
+     *
      * @param preparedStatement to be set.
-     * @param userId value for {@code preparedStatement}.
-     * @param roleId value for {@code preparedStatement}.
+     * @param userId            value for {@code preparedStatement}.
+     * @param roleId            value for {@code preparedStatement}.
      * @throws SQLException if ane SQL errors occurs.
      */
     private static void setPreparedStatement(PreparedStatement preparedStatement, int userId, int roleId) throws SQLException {

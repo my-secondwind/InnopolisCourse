@@ -1,8 +1,7 @@
 package part4.lesson16.task01.dao;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import part4.lesson16.task01.connectionManager.ConnectionManager;
 import part4.lesson16.task01.connectionManager.ConnectionManagerJdbcImpl;
 import part4.lesson16.task01.model.User;
@@ -11,13 +10,13 @@ import java.sql.*;
 
 /**
  * UserDaoImpl
- *
+ * <p>
  * Implements CRUD methods for User object.
  *
  * @author Ekaterina Belolipetskaya
  */
 public class UserDaoImpl implements GenericDao<User> {
-    private static final Logger LOGGER = LogManager.getLogger(UserDaoImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
     private static ConnectionManager connectionManager =
             ConnectionManagerJdbcImpl.getInstance();
     public static final String INSERT_USER_STATEMENT = "INSERT INTO users values (DEFAULT, ?, ?, ?, ?, ?, ?)";
@@ -28,6 +27,7 @@ public class UserDaoImpl implements GenericDao<User> {
 
     /**
      * Add object into DB.
+     *
      * @param object that is added to DB.
      * @return {@code true} if object was added successfully.
      */
@@ -37,7 +37,7 @@ public class UserDaoImpl implements GenericDao<User> {
         boolean result = false;
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_STATEMENT)) {
-            LOGGER.info(this.getClass());
+            LOGGER.debug("Adding object {}", object);
             preparedStatement.setString(1, object.getName());
             preparedStatement.setDate(2, Date.valueOf(object.getBirthday()));
             preparedStatement.setInt(3, object.getLoginId());
@@ -46,13 +46,14 @@ public class UserDaoImpl implements GenericDao<User> {
             preparedStatement.setString(6, object.getDescription());
             result = (preparedStatement.executeUpdate() == 1);
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during adding object {}", object, e);
         }
         return result;
     }
 
     /**
      * Get object from DB by ID.
+     *
      * @param id of object to be found.
      * @return object that created based pn info from DB
      */
@@ -61,20 +62,21 @@ public class UserDaoImpl implements GenericDao<User> {
         User user = new User();
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_STATEMENT)) {
-            LOGGER.info(this.getClass());
+            LOGGER.debug("Getting object by Id {}", id);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             createUserObject(user, resultSet);
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during getting the object by Id {}", id, e);
         }
         return user;
     }
 
     /**
      * Set object's fields according to DB info.
-     * @param user object to be filled.
+     *
+     * @param user      object to be filled.
      * @param resultSet with info about object.
      * @throws SQLException - if any SQL errors occurs.
      */
@@ -90,6 +92,7 @@ public class UserDaoImpl implements GenericDao<User> {
 
     /**
      * Update DB row for the following object.
+     *
      * @param object updated object.
      * @return {@code true} if object was updated successfully.
      */
@@ -98,7 +101,7 @@ public class UserDaoImpl implements GenericDao<User> {
         boolean result = false;
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_STATEMENT)) {
-            LOGGER.info(this.getClass());
+            LOGGER.debug("Updating object by Id {}", object);
             preparedStatement.setString(1, object.getName());
             preparedStatement.setDate(2, Date.valueOf(object.getBirthday()));
             preparedStatement.setInt(3, object.getLoginId());
@@ -108,13 +111,14 @@ public class UserDaoImpl implements GenericDao<User> {
             preparedStatement.setInt(7, object.getId());
             result = (preparedStatement.executeUpdate() == 1);
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during updating the object by Id {}", object, e);
         }
         return result;
     }
 
     /**
      * Delete object by ID.
+     *
      * @param id of he object to be deleted.
      * @return {@code true} if object was deleted successfully.
      */
@@ -123,11 +127,11 @@ public class UserDaoImpl implements GenericDao<User> {
         boolean result = false;
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_STATEMENT)) {
-            LOGGER.info(this.getClass());
+            LOGGER.debug("Deleting object by Id {}", id);
             preparedStatement.setInt(1, id);
             result = (preparedStatement.executeUpdate() == 1);
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during deleting the object by Id {}", id, e);
         }
         return result;
     }

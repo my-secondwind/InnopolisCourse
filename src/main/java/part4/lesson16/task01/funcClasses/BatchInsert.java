@@ -1,8 +1,7 @@
 package part4.lesson16.task01.funcClasses;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import part4.lesson16.task01.connectionManager.ConnectionManager;
 import part4.lesson16.task01.connectionManager.ConnectionManagerJdbcImpl;
 import part4.lesson16.task01.model.enums.RolesNames;
@@ -19,7 +18,7 @@ import static part3.lesson15.task01.dao.RoleDaoImpl.INSERT_ROLE_STATEMENT;
  * @author Ekaterina Belolipetskaya
  */
 public class BatchInsert {
-    private static final Logger LOGGER = LogManager.getLogger(BatchInsert.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BatchInsert.class);
     private static final ConnectionManager CONNECTION_MANAGER =
             ConnectionManagerJdbcImpl.getInstance();
 
@@ -29,7 +28,7 @@ public class BatchInsert {
     public static void doInsert() {
         try (Connection connection = CONNECTION_MANAGER.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_ROLE_STATEMENT)) {
-            LOGGER.info(BatchInsert.class);
+            LOGGER.debug("Do insert");
             preparedStatement.setObject(1, RolesNames.ADMINISTRATION.name());
             preparedStatement.setString(2, null);
             preparedStatement.addBatch();
@@ -41,7 +40,7 @@ public class BatchInsert {
             preparedStatement.addBatch();
             preparedStatement.executeBatch();
         } catch (SQLException e) {
-            LOGGER.throwing(Level.ERROR, e);
+            LOGGER.error("Error during insert", e);
         }
     }
 }

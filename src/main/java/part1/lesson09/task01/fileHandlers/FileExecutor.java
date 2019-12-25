@@ -1,7 +1,8 @@
-package part1.lesson09.task01;
+package part1.lesson09.task01.fileHandlers;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import part1.lesson09.task01.Worker;
 import part1.lesson09.task01.classLoader.CustomClassLoader;
 
 /**
@@ -12,7 +13,7 @@ import part1.lesson09.task01.classLoader.CustomClassLoader;
  * @author Ekaterina Belolipetskaya
  */
 public class FileExecutor {
-    private static final Logger LOGGER = LogManager.getLogger(FileExecutor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileExecutor.class);
     public static final String EXECUTION_STARTS_INFO = "FileExecutor: execution starts...";
 
     /**
@@ -25,8 +26,8 @@ public class FileExecutor {
      */
     public void execute(String fileName) throws Exception {
         LOGGER.debug(EXECUTION_STARTS_INFO);
-        ClassLoader cl = new CustomClassLoader();
-        Class<?> newClass = cl.loadClass(fileName);
+        ClassLoader classLoader = new CustomClassLoader();
+        Class<?> newClass = classLoader.loadClass(fileName);
         Worker newWorker = (Worker) newClass.getConstructor().newInstance();
         newWorker.doWork();
     }

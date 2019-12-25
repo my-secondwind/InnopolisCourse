@@ -1,5 +1,9 @@
 package part1.lesson09.task01;
 
+import part1.lesson09.task01.fileHandlers.FileCompiler;
+import part1.lesson09.task01.fileHandlers.FileExecutor;
+import part1.lesson09.task01.fileHandlers.FileMaker;
+
 /**
  * Main
  * <p>
@@ -17,12 +21,13 @@ package part1.lesson09.task01;
  */
 public class Main {
     public static final String FILE_NAME = "SomeClass";
+    public static final String FILE_PATH = "./src/main/java/part1/lesson09/task01/";
     public static final String CLASS_FILE_EXTENSION = ".class";
     public static final String JAVA_FILE_EXTENSION = ".java";
 
     public static void main(String[] args) throws Exception {
-        new FileMaker().makeFile();
-        new FileCompiler().compile(FILE_NAME);
+        new FileMaker().makeFile(FILE_PATH + FILE_NAME + JAVA_FILE_EXTENSION);
+        new FileCompiler().compile(FILE_NAME, FILE_PATH);
         new FileExecutor().execute(FILE_NAME);
     }
 }

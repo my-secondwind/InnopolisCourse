@@ -1,15 +1,14 @@
 package part1.lesson09.task01.classLoader;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-import static part1.lesson09.task01.Main.CLASS_FILE_EXTENSION;
-import static part1.lesson09.task01.Main.FILE_NAME;
+import static part1.lesson09.task01.Main.*;
 
 /**
  * CustomClassLoader
@@ -19,9 +18,9 @@ import static part1.lesson09.task01.Main.FILE_NAME;
  * @author Ekaterina Belolipetskaya
  */
 public class CustomClassLoader extends ClassLoader {
-    private static final Logger LOGGER = LogManager.getLogger(CustomClassLoader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomClassLoader.class);
     public static final String CLASS_FUNC_NAME = "CustomClassLoader: findClass";
-    public static final String FIND_CLASS_INFO = "CustomClassLoader: findClass starts work: ";
+    public static final String FIND_CLASS_INFO = "CustomClassLoader: findClass starts work: {}";
 
     /**
      * Loads the class with the specified <a href="#binary-name">binary name</a>.
@@ -55,10 +54,10 @@ public class CustomClassLoader extends ClassLoader {
 
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
-        LOGGER.debug(FIND_CLASS_INFO + name);
+        LOGGER.debug(FIND_CLASS_INFO, name);
         if (Objects.equals(FILE_NAME, name)) {
             try {
-                byte[] bytes = Files.readAllBytes(Paths.get(FILE_NAME + CLASS_FILE_EXTENSION));
+                byte[] bytes = Files.readAllBytes(Paths.get(FILE_PATH + FILE_NAME + CLASS_FILE_EXTENSION));
                 return defineClass(name, bytes, 0, bytes.length);
             } catch (IOException e) {
                 LOGGER.error(CLASS_FUNC_NAME, e);

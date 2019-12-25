@@ -1,16 +1,13 @@
-package part1.lesson09.task01;
+package part1.lesson09.task01.fileHandlers;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import static part1.lesson09.task01.Main.FILE_NAME;
-import static part1.lesson09.task01.Main.JAVA_FILE_EXTENSION;
 
 /**
  * FileMaker
@@ -21,7 +18,7 @@ import static part1.lesson09.task01.Main.JAVA_FILE_EXTENSION;
  * @author Ekaterina Belolipetskaya
  */
 public class FileMaker {
-    private static final Logger LOGGER = LogManager.getLogger(FileMaker.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileMaker.class);
     private static final String BEGIN_OF_CLASS = "import part1.lesson09.task01.Worker; public class SomeClass implements Worker {" + System.lineSeparator() +
             "public void doWork(){" + System.lineSeparator();
     private static final String END_OF_CLASS = "}}";
@@ -53,9 +50,9 @@ public class FileMaker {
      *
      * @throws IOException if ane IO errors occurs.
      */
-    public void makeFile() throws IOException {
+    public void makeFile(String fullFileName) throws IOException {
         readMethodCode();
-        saveClassToFile();
+        saveClassToFile(fullFileName);
     }
 
     /**
@@ -64,8 +61,8 @@ public class FileMaker {
      *
      * @throws IOException if any IO errors occurs.
      */
-    private void saveClassToFile() throws IOException {
-        Files.deleteIfExists(Paths.get(FILE_NAME + JAVA_FILE_EXTENSION));
-        Files.write(Paths.get(FILE_NAME + JAVA_FILE_EXTENSION), (BEGIN_OF_CLASS + methodCode + END_OF_CLASS).getBytes());
+    private void saveClassToFile(String fullFileName) throws IOException {
+        Files.deleteIfExists(Paths.get(fullFileName));
+        Files.write(Paths.get(fullFileName), (BEGIN_OF_CLASS + methodCode + END_OF_CLASS).getBytes());
     }
 }

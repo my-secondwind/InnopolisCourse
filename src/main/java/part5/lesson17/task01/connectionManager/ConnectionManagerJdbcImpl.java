@@ -21,7 +21,7 @@ public class ConnectionManagerJdbcImpl implements ConnectionManager {
     private static final String POSTGRES_DRIVER = "org.postgresql.Driver";
     public static final String POSTGRES_URL_USERS = "jdbc:postgresql://localhost:5432/users";
     public static final String POSTGRES_USER = "postgres";
-    public static final String POSTGRES_PASSWORD = "qwerty12345";
+    public static final String POSTGRES_PASSWORD = "qwerty123";
     private static final String GET_CONNECTION = "get connection";
 
     private ConnectionManagerJdbcImpl() {

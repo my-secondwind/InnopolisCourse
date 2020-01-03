@@ -11,7 +11,9 @@ import static part4.lesson16.task01.connectionManager.ConnectionManagerJdbcImpl.
  * @author Ekaterina Belolipetskaya
  */
 public class CreationMainUsers {
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {}
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        create();
+    }
 
     public static void create() throws SQLException, ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
